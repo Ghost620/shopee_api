@@ -1,9 +1,9 @@
-import ProductsDAO from "../dao/restaurantsDAO.js";
+import ProductsDAO from "../dao/productsDAO.js";
 
 export default class ProductsController {
     static async apiGetProducts(req, res, next) {
         
-        const productsPerPage = req.query.productsPerPage ? parseInt(req.query.productsPerPage, 10) : 100
+        const limit = req.query.limit ? parseInt(req.query.limit, 10) : 100
 
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
 
@@ -16,13 +16,13 @@ export default class ProductsController {
             filters.brand = req.query.brand
         }
 
-        const { productsList, totalNumProducts } = await ProductsDAO.getProducts({ filters, page, productsPerPage })
+        const { productsList, totalNumProducts } = await ProductsDAO.getProducts({ filters, page, limit })
 
         let response = {
             products: productsList,
             page: page,
             filters: filters,
-            entries_per_page: productsPerPage,
+            entries_per_page: limit,
             total_results: totalNumProducts,
         }
         res.json(response)

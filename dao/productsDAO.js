@@ -15,7 +15,7 @@ export default class ProductsDAO {
     static async getProducts({
         filters = null,
         page = 0,
-        productsPerPage = 100
+        limit = 100
     } = {}) {
 
         let query
@@ -37,7 +37,7 @@ export default class ProductsDAO {
             return { productsList: [], totalNumProducts: 0 }
         }
 
-        const displayCursor = cursor.limit(productsPerPage).skip(productsPerPage * page)
+        const displayCursor = cursor.limit(limit).skip(limit * page)
 
         try {
             const productsList = await displayCursor.toArray()
