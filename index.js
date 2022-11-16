@@ -32,6 +32,8 @@ const getProducts =  async ({ filters = null, page = 0, limit = 100 } = {}) => {
         query = { $text: { $search: `|${filters["dest"]}|` } };
       } else if ("name" in filters) {
         query = { $text: { $search: filters["name"] } };
+      } else if ("source" in filters) {
+        query = { $text: { $search: filters["source"] } };
       }
     }
 
@@ -78,6 +80,8 @@ app.use("/api/v1/products", async (req, res) => {
     filters.name = req.query.name;
   } else if (req.query.brand) {
     filters.brand = req.query.brand;
+  } else if (req.query.source) {
+    filters.source = req.query.source;
   }
   
   const { productsList, totalNumProducts } = await getProducts({
